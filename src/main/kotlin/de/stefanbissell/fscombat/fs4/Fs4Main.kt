@@ -9,17 +9,17 @@ fun main() {
     val runs = 100_000
     val playerA = Fs4Player(
         name = "A",
-        strength = 5,
-        melee = 5,
-        armor = Fs4Armor.PolymerKnit,
-        weapon = Fs4Weapon.Dagger,
+        strength = 6,
+        melee = 7,
+        armor = Fs4Armor.ThickClothing,
+        weapon = Fs4Weapon.Rapier,
         shield = Fs4Shield.Standard
     )
     val playerB = Fs4Player(
         name = "B",
-        strength = 5,
-        melee = 5,
-        armor = Fs4Armor.PolymerKnit,
+        strength = 6,
+        melee = 6,
+        armor = Fs4Armor.ThickClothing,
         weapon = Fs4Weapon.Rapier,
         shield = Fs4Shield.Standard
     )
