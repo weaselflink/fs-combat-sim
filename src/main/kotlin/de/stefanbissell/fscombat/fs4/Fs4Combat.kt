@@ -54,7 +54,7 @@ data class PlayerHandler(
                     overDamage > underShieldDamage -> otherPlayer.takeDamage(maxPossibleDamage)
                     weaponDamage <= underShieldDamage -> otherPlayer.takeDamage(weaponDamage)
                     minPossibleDamage <= underShieldDamage -> otherPlayer.takeDamage(underShieldDamage)
-                    else -> otherPlayer.takeDamage(maxPossibleDamage)
+                    else -> otherPlayer.takeDamage(weaponDamage)
                 }
             } else {
                 otherPlayer.takeDamage(maxPossibleDamage)
