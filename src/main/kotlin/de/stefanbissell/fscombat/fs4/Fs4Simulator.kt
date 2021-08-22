@@ -3,16 +3,16 @@ package de.stefanbissell.fscombat.fs4
 import de.stefanbissell.fscombat.percent
 
 class Fs4Simulator(
-    private val playerA: Fs4Player,
-    private val playerB: Fs4Player
+    private val playerAExpr: () -> Fs4Player,
+    private val playerBExpr: () -> Fs4Player
 ) {
 
-    fun run(runs: Int = 100_000): SimulationResult {
+    fun run(runs: Int): SimulationResult {
         var vicA = 0
         var vicB = 0
         val rounds = mutableListOf<Int>()
         repeat(runs) { index ->
-            Fs4Combat(playerA, playerB)
+            Fs4Combat(playerAExpr(), playerBExpr())
                 .run(index)
                 .also {
                     if (it.playerA.isAlive && !it.playerB.isAlive) {
