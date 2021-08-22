@@ -18,7 +18,8 @@ data class Fs4PlayerHandler(
         val goal = player.strength + player.melee
         val roll = Fs4Roll(goal, diceRoll)
         if (roll.success && roll.victoryPoints > otherPlayer.bodyResistance) {
-            val extraVp = roll.victoryPoints - otherPlayer.bodyResistance
+            val resistance = if (roll.critical) 0 else otherPlayer.bodyResistance
+            val extraVp = roll.victoryPoints - resistance
             val maxPossibleDamage = weaponDamage + (extraVp / 2)
             val minPossibleDamage = weaponDamage - (extraVp / 2)
             if (otherPlayer.activeShield) {
