@@ -6,8 +6,8 @@ fun main() {
     val playerA = {
         Fs4Player(
             name = "A",
-            strength = Random.nextInt(8) + 3,
-            melee = Random.nextInt(8) + 3,
+            strength = (3..10).random(),
+            melee = (3..10).random(),
             armor = Fs4Armor.ThickClothing,
             weapon = Fs4Weapon.Dagger,
             shield = Fs4Shield.Standard
@@ -16,8 +16,8 @@ fun main() {
     val playerB = {
         Fs4Player(
             name = "B",
-            strength = Random.nextInt(8) + 3,
-            melee = Random.nextInt(8) + 3,
+            strength = (3..10).random(),
+            melee = (3..10).random(),
             armor = Fs4Armor.HalfPlate,
             weapon = Fs4Weapon.Dagger,
             shield = Fs4Shield.None
