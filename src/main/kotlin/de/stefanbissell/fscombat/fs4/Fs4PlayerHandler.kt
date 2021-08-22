@@ -2,17 +2,20 @@ package de.stefanbissell.fscombat.fs4
 
 import de.stefanbissell.fscombat.rollD20
 import kotlin.math.max
+import kotlin.math.min
 
 class Fs4PlayerHandler(
     val player: Fs4Player,
     var vitality: Int = player.vitality,
-    var shieldHits: Int = player.shield.hits
+    var shieldHits: Int = player.shield.hits,
+    var cache: Int = 0
 ) {
 
     val bodyResistance = player.armor.resistance + player.weapon.resistance
     val weaponDamage = player.weapon.damage
 
     fun attack(otherPlayer: Fs4PlayerHandler) {
+        cache = min(cache, player.bank)
         AttackResolver.resolve(this, otherPlayer, rollD20())
     }
 

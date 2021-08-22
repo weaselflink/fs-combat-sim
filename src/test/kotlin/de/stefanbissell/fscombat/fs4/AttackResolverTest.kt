@@ -17,14 +17,22 @@ class AttackResolverTest {
 
         expectThat(defender.vitality).isEqualTo(defenderTemplate.vitality)
         expectThat(defender.shieldHits).isEqualTo(defenderTemplate.shield.hits)
+        expectThat(attacker.cache).isEqualTo(0)
     }
 
     @Test
     fun `resolves success beating resistance but triggering shield`() {
-        AttackResolver.resolve(attacker, defender, 1)
+        attackerTemplate = attackerTemplate.copy(
+            strength = 7,
+            melee = 7,
+            weapon = Fs4Weapon.GreatWeapon
+        )
+
+        AttackResolver.resolve(attacker, defender, 5)
 
         expectThat(defender.vitality).isEqualTo(defenderTemplate.vitality)
         expectThat(defender.shieldHits).isEqualTo(defenderTemplate.shield.hits - 1)
+        expectThat(attacker.cache).isEqualTo(5)
     }
 
     @Test
@@ -33,6 +41,7 @@ class AttackResolverTest {
 
         expectThat(defender.vitality).isEqualTo(defenderTemplate.vitality - 4)
         expectThat(defender.shieldHits).isEqualTo(defenderTemplate.shield.hits)
+        expectThat(attacker.cache).isEqualTo(0)
     }
 
     @Test
@@ -41,6 +50,7 @@ class AttackResolverTest {
 
         expectThat(defender.vitality).isEqualTo(defenderTemplate.vitality - 4)
         expectThat(defender.shieldHits).isEqualTo(defenderTemplate.shield.hits)
+        expectThat(attacker.cache).isEqualTo(2)
     }
 
     @Test
@@ -55,6 +65,7 @@ class AttackResolverTest {
 
         expectThat(defender.vitality).isEqualTo(defenderTemplate.vitality - 4)
         expectThat(defender.shieldHits).isEqualTo(defenderTemplate.shield.hits)
+        expectThat(attacker.cache).isEqualTo(0)
     }
 
     @Test
@@ -65,10 +76,11 @@ class AttackResolverTest {
             weapon = Fs4Weapon.GreatWeapon
         )
 
-        AttackResolver.resolve(attacker, defender, 7)
+        AttackResolver.resolve(attacker, defender, 8)
 
         expectThat(defender.vitality).isEqualTo(defenderTemplate.vitality - 1)
         expectThat(defender.shieldHits).isEqualTo(defenderTemplate.shield.hits - 1)
+        expectThat(attacker.cache).isEqualTo(1)
     }
 
     @Test
@@ -83,5 +95,6 @@ class AttackResolverTest {
 
         expectThat(defender.vitality).isEqualTo(defenderTemplate.vitality - 4)
         expectThat(defender.shieldHits).isEqualTo(defenderTemplate.shield.hits - 1)
+        expectThat(attacker.cache).isEqualTo(0)
     }
 }
