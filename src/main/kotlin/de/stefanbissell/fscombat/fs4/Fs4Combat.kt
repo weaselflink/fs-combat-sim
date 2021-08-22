@@ -1,8 +1,5 @@
 package de.stefanbissell.fscombat.fs4
 
-import de.stefanbissell.fscombat.rollD20
-import kotlin.math.max
-
 class Fs4Combat(
     private val playerTemplateA: Fs4Player,
     private val playerTemplateB: Fs4Player
@@ -10,8 +7,8 @@ class Fs4Combat(
 
     fun run(index: Int): Fs4CombatResult {
         var rounds = 0
-        val playerA = PlayerHandler(playerTemplateA)
-        val playerB = PlayerHandler(playerTemplateB)
+        val playerA = Fs4PlayerHandler(playerTemplateA)
+        val playerB = Fs4PlayerHandler(playerTemplateB)
 
         while (playerA.isAlive && playerB.isAlive) {
             if (index % 2 == 0) {
@@ -35,56 +32,8 @@ class Fs4Combat(
     }
 }
 
-data class PlayerHandler(
-    val player: Fs4Player,
-    var vitality: Int = player.vitality,
-    var shieldHits: Int = player.shield.hits
-) {
-    fun attack(otherPlayer: PlayerHandler) {
-        val goal = player.strength + player.melee
-        val roll = Fs4Roll(goal, rollD20())
-        if (roll.success && roll.victoryPoints > otherPlayer.bodyResistance) {
-            val extraVp = roll.victoryPoints - otherPlayer.bodyResistance
-            val maxPossibleDamage = weaponDamage + (extraVp / 2)
-            val minPossibleDamage = weaponDamage - (extraVp / 2)
-            if (otherPlayer.activeShield) {
-                val overDamage = max(0, maxPossibleDamage - otherPlayer.player.shield.upper)
-                val underShieldDamage = max(0, otherPlayer.player.shield.lower - 1)
-                when {
-                    overDamage > underShieldDamage -> otherPlayer.takeDamage(maxPossibleDamage)
-                    weaponDamage <= underShieldDamage -> otherPlayer.takeDamage(weaponDamage)
-                    minPossibleDamage <= underShieldDamage -> otherPlayer.takeDamage(underShieldDamage)
-                    else -> otherPlayer.takeDamage(weaponDamage)
-                }
-            } else {
-                otherPlayer.takeDamage(maxPossibleDamage)
-            }
-        }
-    }
-
-    private fun takeDamage(damage: Int) {
-        vitality = if (activeShield && damage >= player.shield.lower) {
-            val damageLeft = max(0, damage - player.shield.upper)
-            shieldHits--
-            max(0, vitality - damageLeft)
-        } else {
-            max(0, vitality - damage)
-        }
-
-    }
-
-    private val bodyResistance = player.armor.resistance
-    private val weaponDamage = player.weapon.damage
-
-    val isAlive
-        get() = vitality > 0
-
-    private val activeShield
-        get() = shieldHits > 0
-}
-
 data class Fs4CombatResult(
     val rounds: Int,
-    val playerA: PlayerHandler,
-    val playerB: PlayerHandler
+    val playerA: Fs4PlayerHandler,
+    val playerB: Fs4PlayerHandler
 )
