@@ -12,7 +12,17 @@ object AttackResolver {
     ) {
         val goal = attacker.player.strength + attacker.player.melee
         val roll = Fs4Roll(goal, diceRoll)
-        if (roll.success && roll.victoryPoints > defender.bodyResistance) {
+        if (roll.success) {
+            resolveSuccess(roll, defender, attacker)
+        }
+    }
+
+    private fun resolveSuccess(
+        roll: Fs4Roll,
+        defender: Fs4PlayerHandler,
+        attacker: Fs4PlayerHandler
+    ) {
+        if (roll.victoryPoints > defender.bodyResistance) {
             val resistance = if (roll.critical) {
                 0
             } else {
@@ -25,8 +35,13 @@ object AttackResolver {
                 val overDamage = max(0, maxPossibleDamage - defender.player.shield.upper)
                 val underShieldDamage = max(0, defender.player.shield.lower - 1)
                 when {
-                    overDamage > underShieldDamage -> defender.takeDamage(maxPossibleDamage)
-                    attacker.weaponDamage <= underShieldDamage -> defender.takeDamage(min(underShieldDamage, maxPossibleDamage))
+                    overDamage >= underShieldDamage -> defender.takeDamage(maxPossibleDamage)
+                    attacker.weaponDamage <= underShieldDamage -> defender.takeDamage(
+                        min(
+                            underShieldDamage,
+                            maxPossibleDamage
+                        )
+                    )
                     minPossibleDamage <= underShieldDamage -> defender.takeDamage(underShieldDamage)
                     overDamage > 0 -> defender.takeDamage(maxPossibleDamage)
                     else -> defender.takeDamage(attacker.weaponDamage)
