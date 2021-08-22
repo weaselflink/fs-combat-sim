@@ -23,6 +23,7 @@ enum class Fs4Armor(
     Mail(7, listOf(Hard, Slam), Battle, true),
 }
 
+@Suppress("unused")
 enum class Fs4DamageType {
     Blaster,
     Flame,
