@@ -37,8 +37,8 @@ class Fs4Combat(
 
 data class PlayerHandler(
     val player: Fs4Player,
-    var currentVitality: Int = player.vitality,
-    var currentShieldHits: Int = player.shield.hits
+    var vitality: Int = player.vitality,
+    var shieldHits: Int = player.shield.hits
 ) {
     fun attack(otherPlayer: PlayerHandler) {
         val goal = player.strength + player.melee
@@ -63,12 +63,12 @@ data class PlayerHandler(
     }
 
     private fun takeDamage(damage: Int) {
-        currentVitality = if (activeShield && damage >= player.shield.lower) {
+        vitality = if (activeShield && damage >= player.shield.lower) {
             val damageLeft = max(0, damage - player.shield.upper)
-            currentShieldHits--
-            max(0, currentVitality - damageLeft)
+            shieldHits--
+            max(0, vitality - damageLeft)
         } else {
-            max(0, currentVitality - damage)
+            max(0, vitality - damage)
         }
 
     }
@@ -77,10 +77,10 @@ data class PlayerHandler(
     private val weaponDamage = player.weapon.damage
 
     val isAlive
-        get() = currentVitality > 0
+        get() = vitality > 0
 
     private val activeShield
-        get() = currentShieldHits > 0
+        get() = shieldHits > 0
 }
 
 data class Fs4CombatResult(
