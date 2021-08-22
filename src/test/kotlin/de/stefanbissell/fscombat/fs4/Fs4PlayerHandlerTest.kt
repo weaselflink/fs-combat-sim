@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestFactory
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
+import strikt.assertions.isLessThanOrEqualTo
 
 class Fs4PlayerHandlerTest {
 
@@ -20,6 +21,27 @@ class Fs4PlayerHandlerTest {
         handler.takeDamage(damage)
 
         expectThat(20 - handler.vitality).isEqualTo(damage)
+    }
+
+    @Test
+    fun `shield gets depleted`() {
+        val handler = Fs4PlayerHandler(
+            player = Fs4Player(shield = Standard),
+            vitality = 20
+        )
+
+        val damage = 6
+        repeat(10) {
+            handler.takeDamage(damage)
+        }
+
+        expectThat(20 - handler.vitality).isEqualTo(0)
+        expectThat(handler.shieldHits).isEqualTo(0)
+
+        handler.takeDamage(damage)
+
+        expectThat(20 - handler.vitality).isEqualTo(damage)
+        expectThat(handler.shieldHits).isEqualTo(0)
     }
 
     @TestFactory
