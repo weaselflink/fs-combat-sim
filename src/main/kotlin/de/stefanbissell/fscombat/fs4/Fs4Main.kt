@@ -3,7 +3,6 @@ package de.stefanbissell.fscombat.fs4
 fun main() {
     val playerA = {
         Fs4Player(
-            name = "A",
             strength = (3..10).random(),
             melee = (3..10).random(),
             armor = Fs4Armor.ThickClothing,
@@ -13,7 +12,6 @@ fun main() {
     }
     val playerB = {
         Fs4Player(
-            name = "B",
             strength = (3..10).random(),
             melee = (3..10).random(),
             armor = Fs4Armor.HalfPlate,
