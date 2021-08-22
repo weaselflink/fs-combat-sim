@@ -1,6 +1,6 @@
-package de.stefanbissell.fscombat
+package de.stefanbissell.fscombat.fs2
 
-import kotlin.math.roundToInt
+import de.stefanbissell.fscombat.percent
 
 fun main() {
     var vicA = 0
@@ -9,7 +9,6 @@ fun main() {
     val runs = 100_000
     val playerA = {
         Player(
-            name = "A",
             dexterity = 6,
             endurance = 4,
             wits = 3,
@@ -21,7 +20,6 @@ fun main() {
     }
     val playerB = {
         Player(
-            name = "B",
             dexterity = 6,
             endurance = 4,
             wits = 3,
@@ -51,5 +49,3 @@ fun main() {
     println("${vicA percent runs}% vs ${vicB percent runs}% (draws ${draws percent runs}%)")
     println("Average rounds: ${rounds.average()}")
 }
-
-private infix fun Int.percent(total: Int) = ((this.toDouble() / total) * 100).roundToInt()

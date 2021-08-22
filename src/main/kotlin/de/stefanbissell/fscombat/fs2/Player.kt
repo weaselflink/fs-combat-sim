@@ -1,10 +1,10 @@
-package de.stefanbissell.fscombat
+package de.stefanbissell.fscombat.fs2
 
+import de.stefanbissell.fscombat.rollD20
 import kotlin.math.max
 import kotlin.random.Random
 
 data class Player(
-    val name: String,
     private val dexterity: Int = 3,
     private val endurance: Int = 3,
     private val wits: Int = 3,
@@ -94,8 +94,6 @@ class ShieldHandler(
             damage
         }
 }
-
-fun rollD20() = Random.nextInt(20) + 1
 
 fun rollSkill(goal: Int): RollResult {
     val roll = rollD20()

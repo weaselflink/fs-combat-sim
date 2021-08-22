@@ -1,4 +1,4 @@
-package de.stefanbissell.fscombat
+package de.stefanbissell.fscombat.fs2
 
 class Combat(
     private val playerA: Player,
