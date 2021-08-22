@@ -1,7 +1,5 @@
 package de.stefanbissell.fscombat.fs4
 
-import kotlin.random.Random
-
 fun main() {
     val playerA = {
         Fs4Player(
