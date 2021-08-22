@@ -4,11 +4,13 @@ import de.stefanbissell.fscombat.rollD20
 import kotlin.math.max
 
 class Fs4PlayerHandler(
-    val player: Fs4Player
+    val player: Fs4Player,
+    var vitality: Int = player.vitality,
+    var shieldHits: Int = player.shield.hits
 ) {
 
-    var vitality: Int = player.vitality
-    var shieldHits: Int = player.shield.hits
+    val bodyResistance = player.armor.resistance + player.weapon.resistance
+    val weaponDamage = player.weapon.damage
 
     fun attack(otherPlayer: Fs4PlayerHandler) {
         AttackResolver.resolve(this, otherPlayer, rollD20())
@@ -24,9 +26,6 @@ class Fs4PlayerHandler(
         }
 
     }
-
-    val bodyResistance = player.armor.resistance + player.weapon.resistance
-    val weaponDamage = player.weapon.damage
 
     val isAlive
         get() = vitality > 0

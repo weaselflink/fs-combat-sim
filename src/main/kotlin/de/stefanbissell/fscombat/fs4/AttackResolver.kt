@@ -13,14 +13,14 @@ object AttackResolver {
         val goal = attacker.player.strength + attacker.player.melee
         val roll = Fs4Roll(goal, diceRoll)
         if (roll.success) {
-            resolveSuccess(roll, defender, attacker)
+            resolveSuccess(roll, attacker, defender)
         }
     }
 
     private fun resolveSuccess(
         roll: Fs4Roll,
-        defender: Fs4PlayerHandler,
-        attacker: Fs4PlayerHandler
+        attacker: Fs4PlayerHandler,
+        defender: Fs4PlayerHandler
     ) {
         if (roll.victoryPoints > defender.bodyResistance) {
             val resistance = if (roll.critical) {
@@ -35,20 +35,40 @@ object AttackResolver {
                 val overDamage = max(0, maxPossibleDamage - defender.player.shield.upper)
                 val underShieldDamage = max(0, defender.player.shield.lower - 1)
                 when {
-                    overDamage >= underShieldDamage -> defender.takeDamage(maxPossibleDamage)
-                    attacker.weaponDamage <= underShieldDamage -> defender.takeDamage(
-                        min(
-                            underShieldDamage,
-                            maxPossibleDamage
-                        )
-                    )
-                    minPossibleDamage <= underShieldDamage -> defender.takeDamage(underShieldDamage)
-                    overDamage > 0 -> defender.takeDamage(maxPossibleDamage)
-                    else -> defender.takeDamage(attacker.weaponDamage)
+                    overDamage >= underShieldDamage -> inflictMaxDamage(attacker, defender, extraVp)
+                    minPossibleDamage <= underShieldDamage -> goUnderShield(attacker, defender, extraVp)
+                    overDamage > 0 -> inflictMaxDamage(attacker, defender, extraVp)
+                    else -> inflictRegularDamage(attacker, defender)
                 }
             } else {
-                defender.takeDamage(maxPossibleDamage)
+                inflictMaxDamage(attacker, defender, extraVp)
             }
         }
+    }
+
+    private fun inflictMaxDamage(
+        attacker: Fs4PlayerHandler,
+        defender: Fs4PlayerHandler,
+        extraVp: Int
+    ) {
+        val maxPossibleDamage = attacker.weaponDamage + (extraVp / 2)
+        defender.takeDamage(maxPossibleDamage)
+    }
+
+    private fun inflictRegularDamage(
+        attacker: Fs4PlayerHandler,
+        defender: Fs4PlayerHandler
+    ) {
+        defender.takeDamage(attacker.weaponDamage)
+    }
+
+    private fun goUnderShield(
+        attacker: Fs4PlayerHandler,
+        defender: Fs4PlayerHandler,
+        extraVp: Int
+    ) {
+        val maxPossibleDamage = attacker.weaponDamage + (extraVp / 2)
+        val underShieldDamage = max(0, defender.player.shield.lower - 1)
+        defender.takeDamage(min(underShieldDamage, maxPossibleDamage))
     }
 }
