@@ -12,7 +12,7 @@ class Fs4PlayerHandlerTest {
     @Test
     fun `take damage without shield`() {
         val handler = Fs4PlayerHandler(
-            player = Fs4Player(shield = None),
+            player = Fs4Player(shield = NoShield),
             vitality = 20
         )
 

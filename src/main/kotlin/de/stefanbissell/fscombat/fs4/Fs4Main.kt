@@ -1,5 +1,8 @@
 package de.stefanbissell.fscombat.fs4
 
+import de.stefanbissell.fscombat.fs4.Fs4Armor.*
+import de.stefanbissell.fscombat.fs4.Fs4Shield.*
+import de.stefanbissell.fscombat.fs4.Fs4Weapon.*
 import kotlin.time.ExperimentalTime
 import kotlin.time.measureTime
 
@@ -9,18 +12,18 @@ fun main() {
         Fs4Player(
             strength = (3..10).random(),
             melee = (3..10).random(),
-            armor = Fs4Armor.ThickClothing,
-            weapon = Fs4Weapon.Rapier,
-            shield = Fs4Shield.Standard
+            armor = ThickClothing,
+            weapon = Rapier,
+            shield = Standard
         )
     }
     val playerB = {
         Fs4Player(
             strength = (3..10).random(),
             melee = (3..10).random(),
-            armor = Fs4Armor.ScaleMail,
-            weapon = Fs4Weapon.Dagger,
-            shield = Fs4Shield.None
+            armor = ScaleMail,
+            weapon = Dagger,
+            shield = NoShield
         )
     }
 
@@ -31,4 +34,5 @@ fun main() {
     }.also {
         println("${it.inWholeMilliseconds} ms")
     }
+    println()
 }

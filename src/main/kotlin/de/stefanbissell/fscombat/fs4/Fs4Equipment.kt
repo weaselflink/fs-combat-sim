@@ -60,7 +60,7 @@ enum class Fs4Shield(
     val lower: Int = 5,
     val upper: Int = 10
 ) {
-    None(0),
+    NoShield(0),
     Antique(8, lower = 6, upper = 9),
     Standard(10),
     Dueling(15),
