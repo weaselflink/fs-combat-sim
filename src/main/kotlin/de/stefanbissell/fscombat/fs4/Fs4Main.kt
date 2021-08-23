@@ -21,6 +21,6 @@ fun main() {
     }
 
     Fs4Simulator(playerA, playerB)
-        .run(1_000_000)
+        .run(100_000)
         .also { println(it) }
 }
