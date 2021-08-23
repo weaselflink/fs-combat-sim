@@ -1,5 +1,7 @@
 package de.stefanbissell.fscombat.fs4
 
+import de.stefanbissell.fscombat.fs4.Fs4Armor.*
+import de.stefanbissell.fscombat.fs4.Fs4Weapon.*
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
@@ -25,7 +27,7 @@ class AttackResolverTest {
         attackerTemplate = attackerTemplate.copy(
             strength = 7,
             melee = 7,
-            weapon = Fs4Weapon.GreatWeapon
+            weapon = GreatWeapon
         )
 
         AttackResolver.resolve(attacker, defender, 5)
@@ -58,7 +60,7 @@ class AttackResolverTest {
         attackerTemplate = attackerTemplate.copy(
             strength = 7,
             melee = 7,
-            weapon = Fs4Weapon.GreatWeapon
+            weapon = GreatWeapon
         )
 
         AttackResolver.resolve(attacker, defender, 9)
@@ -73,7 +75,7 @@ class AttackResolverTest {
         attackerTemplate = attackerTemplate.copy(
             strength = 7,
             melee = 7,
-            weapon = Fs4Weapon.GreatWeapon
+            weapon = GreatWeapon
         )
 
         AttackResolver.resolve(attacker, defender, 8)
@@ -88,7 +90,7 @@ class AttackResolverTest {
         attackerTemplate = attackerTemplate.copy(
             strength = 7,
             melee = 7,
-            weapon = Fs4Weapon.GreatWeapon
+            weapon = GreatWeapon
         )
 
         AttackResolver.resolve(attacker, defender, 13)
@@ -104,6 +106,25 @@ class AttackResolverTest {
         defender.shieldHits = 0
 
         AttackResolver.resolve(attacker, defender, 4)
+
+        expectThat(defender.vitality).isEqualTo(defenderTemplate.vitality - 5)
+        expectThat(defender.cache).isEqualTo(0)
+        expectThat(attacker.cache).isEqualTo(1)
+    }
+
+    @Test
+    fun `boost cost double with hindering armor`() {
+        defenderTemplate = defenderTemplate.copy(
+            armor = ScaleMail
+        )
+        defender.cache = 2
+        defender.shieldHits = 0
+        attackerTemplate = attackerTemplate.copy(
+            strength = 7,
+            melee = 7
+        )
+
+        AttackResolver.resolve(attacker, defender, 8)
 
         expectThat(defender.vitality).isEqualTo(defenderTemplate.vitality - 5)
         expectThat(defender.cache).isEqualTo(0)
