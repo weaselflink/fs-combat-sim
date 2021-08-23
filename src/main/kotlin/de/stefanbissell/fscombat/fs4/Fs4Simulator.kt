@@ -1,6 +1,7 @@
 package de.stefanbissell.fscombat.fs4
 
 import de.stefanbissell.fscombat.percent
+import de.stefanbissell.fscombat.round
 import kotlin.math.max
 import kotlin.math.roundToInt
 
@@ -49,7 +50,7 @@ data class SimulationResult(
         return """
             ${victoriesA.sum} vs ${victoriesB.sum} (draws $draws)
             ${victoriesA.percent}% vs ${victoriesB.percent}% (draws ${draws percent runs}%)
-            Average rounds: ${rounds.average}
+            Average rounds: ${rounds.average.round(1)}
         """.trimIndent()
     }
 }
