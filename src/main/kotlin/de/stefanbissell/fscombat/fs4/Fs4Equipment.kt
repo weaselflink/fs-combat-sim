@@ -20,9 +20,10 @@ enum class Fs4Armor(
     BattlePadding(1, listOf(Shock, Slam)),
     StuddedLeatherJerkin(3, listOf(Slam), Assault),
     HalfPlate(5, listOf(Hard, Slam)),
-    CeramsteelExoframe(6, listOf(Hard, Laser, Shock, Slam), Battle, true),
+    CeramsteelExoframe(10, listOf(Hard, Laser, Shock, Slam), Battle, true),
     ScaleMail(6, listOf(Hard, Slam), Battle, true),
     Mail(7, listOf(Hard, Slam), Battle, true),
+    FullPlate(8, listOf(Hard, Slam), Battle, true),
 }
 
 @Suppress("unused")

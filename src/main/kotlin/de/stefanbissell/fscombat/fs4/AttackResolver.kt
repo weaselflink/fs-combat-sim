@@ -83,7 +83,8 @@ private class AttackResolverInstance(
 
     private fun boostedResistance(defender: Fs4PlayerHandler, attackerVp: Int): Int {
         val invincibleResistance = attackerVp + 1
-        val vpToInvincible = invincibleResistance - defender.bodyResistance
+        val vpToInvincible = (invincibleResistance - defender.bodyResistance)
+            .let { if (defender.player.armor.hindering) it * 2 else it }
         return if (defender.cache >= vpToInvincible) {
             defender.cache -= vpToInvincible
             invincibleResistance

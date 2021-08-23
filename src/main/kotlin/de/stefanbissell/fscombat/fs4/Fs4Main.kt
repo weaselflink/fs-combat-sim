@@ -14,7 +14,7 @@ fun main() {
         Fs4Player(
             strength = (3..10).random(),
             melee = (3..10).random(),
-            armor = Fs4Armor.HalfPlate,
+            armor = Fs4Armor.ScaleMail,
             weapon = Fs4Weapon.Dagger,
             shield = Fs4Shield.None
         )
