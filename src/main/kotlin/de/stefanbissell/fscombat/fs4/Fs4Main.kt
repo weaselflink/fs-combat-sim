@@ -6,7 +6,7 @@ fun main() {
             strength = (3..10).random(),
             melee = (3..10).random(),
             armor = Fs4Armor.ThickClothing,
-            weapon = Fs4Weapon.Dagger,
+            weapon = Fs4Weapon.Rapier,
             shield = Fs4Shield.Standard
         )
     }
