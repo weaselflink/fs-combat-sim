@@ -1,5 +1,9 @@
 package de.stefanbissell.fscombat.fs4
 
+import kotlin.time.ExperimentalTime
+import kotlin.time.measureTime
+
+@ExperimentalTime
 fun main() {
     val playerA = {
         Fs4Player(
@@ -20,7 +24,11 @@ fun main() {
         )
     }
 
-    Fs4Simulator(playerA, playerB)
-        .run(100_000)
-        .also { println(it) }
+    measureTime {
+        Fs4Simulator(playerA, playerB)
+            .run(100_000)
+            .also { println(it) }
+    }.also {
+        println("${it.inWholeMilliseconds} ms")
+    }
 }
