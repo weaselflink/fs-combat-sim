@@ -30,26 +30,26 @@ private class AttackResolverInstance(
 
     private fun resolveSuccess(roll: Fs4Roll) {
         attacker.cache += roll.victoryPoints
-        if (attacker.cache >= defender.bodyResistance) {
-            val resistance = if (roll.critical) {
-                0
-            } else {
-                defender.bodyResistance
-            }
-            val extraVp = attacker.cache - resistance
+        val boostedResistance = if (roll.critical) {
+            0
+        } else {
+            boostedResistance(defender, attacker.cache)
+        }
+        if (attacker.cache >= boostedResistance) {
+            val extraVp = attacker.cache - boostedResistance
             val maxPossibleDamage = attacker.weaponDamage + (extraVp / 2)
             if (defender.activeShield) {
                 val minPossibleDamage = attacker.weaponDamage - (extraVp / 2)
                 val overDamage = max(0, maxPossibleDamage - defender.player.shield.upper)
                 val underShieldDamage = max(0, defender.player.shield.lower - 1)
                 when {
-                    overDamage >= underShieldDamage -> inflictMaxDamage(extraVp, resistance)
-                    minPossibleDamage <= underShieldDamage -> goUnderShield(extraVp, resistance)
-                    overDamage > 0 -> inflictMaxDamage(extraVp, resistance)
+                    overDamage >= underShieldDamage -> inflictMaxDamage(extraVp, boostedResistance)
+                    minPossibleDamage <= underShieldDamage -> goUnderShield(extraVp, boostedResistance)
+                    overDamage > 0 -> inflictMaxDamage(extraVp, boostedResistance)
                     else -> inflictRegularDamage()
                 }
             } else {
-                inflictMaxDamage(extraVp, resistance)
+                inflictMaxDamage(extraVp, boostedResistance)
             }
         }
     }
@@ -78,6 +78,19 @@ private class AttackResolverInstance(
             val restraint = attacker.weaponDamage - (defender.player.shield.lower - 1)
             attacker.cache -= restraint * 2
             defender.takeDamage(attacker.weaponDamage - restraint)
+        }
+    }
+
+    private fun boostedResistance(defender: Fs4PlayerHandler, attackerVp: Int): Int {
+        val invincibleResistance = attackerVp + 1
+        val vpToInvincible = invincibleResistance - defender.bodyResistance
+        return if (defender.cache >= vpToInvincible) {
+            defender.cache -= vpToInvincible
+            invincibleResistance
+        } else {
+            val defenderVp = defender.cache
+            defender.cache = 0
+            defender.bodyResistance + defenderVp
         }
     }
 }

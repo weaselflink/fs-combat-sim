@@ -97,4 +97,16 @@ class AttackResolverTest {
         expectThat(defender.shieldHits).isEqualTo(defenderTemplate.shield.hits - 1)
         expectThat(attacker.cache).isEqualTo(0)
     }
+
+    @Test
+    fun `defender boosts resistance with full VP`() {
+        defender.cache = 2
+        defender.shieldHits = 0
+
+        AttackResolver.resolve(attacker, defender, 4)
+
+        expectThat(defender.vitality).isEqualTo(defenderTemplate.vitality - 5)
+        expectThat(defender.cache).isEqualTo(0)
+        expectThat(attacker.cache).isEqualTo(1)
+    }
 }
