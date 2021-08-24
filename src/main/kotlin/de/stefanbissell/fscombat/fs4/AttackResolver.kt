@@ -10,17 +10,17 @@ object AttackResolver {
         defender: Fs4PlayerHandler,
         diceRoll: Int
     ) {
-        AttackResolverInstance(attacker, defender, diceRoll)
+        AttackResolverInstance(attacker, defender, diceRoll).resolve()
     }
 }
 
 private class AttackResolverInstance(
     private val attacker: Fs4PlayerHandler,
     private val defender: Fs4PlayerHandler,
-    diceRoll: Int
+    private val diceRoll: Int
 ) {
 
-    init {
+    fun resolve() {
         val goal = attacker.player.strength + attacker.player.melee
         val roll = Fs4Roll(goal, diceRoll)
         if (roll.success) {
@@ -33,7 +33,7 @@ private class AttackResolverInstance(
         val boostedResistance = if (roll.critical) {
             0
         } else {
-            boostedResistance(defender, attacker.cache)
+            boostedResistance()
         }
         if (attacker.cache >= boostedResistance) {
             val extraVp = attacker.cache - boostedResistance
@@ -81,21 +81,10 @@ private class AttackResolverInstance(
         }
     }
 
-    private fun boostedResistance(defender: Fs4PlayerHandler, attackerVp: Int): Int {
-        val invincibleResistance = attackerVp + 1
-        val boostToInvincible = invincibleResistance - defender.bodyResistance
-        val maxBoost = if (defender.player.armor.hindering) {
-            defender.cache / 2
-        } else {
-            defender.cache
-        }
-        return if (maxBoost >= boostToInvincible) {
-            payBoostCost(defender, boostToInvincible)
-            invincibleResistance
-        } else {
-            payBoostCost(defender, maxBoost)
-            defender.bodyResistance + maxBoost
-        }
+    private fun boostedResistance(): Int {
+        val boost = BoostDecider(attacker, defender).decide()
+        payBoostCost(defender, boost)
+        return defender.bodyResistance + boost
     }
 
     private fun payBoostCost(defender: Fs4PlayerHandler, boost: Int) {
@@ -103,6 +92,27 @@ private class AttackResolverInstance(
             defender.cache -= boost * 2
         } else {
             defender.cache -= boost
+        }
+    }
+}
+
+class BoostDecider(
+    private val attacker: Fs4PlayerHandler,
+    private val defender: Fs4PlayerHandler
+) {
+
+    fun decide(): Int {
+        val invincibleResistance = attacker.cache + 1
+        val boostToInvincible = invincibleResistance - defender.bodyResistance
+        val maxBoost = if (defender.player.armor.hindering) {
+            defender.cache / 2
+        } else {
+            defender.cache
+        }
+        return if (maxBoost >= boostToInvincible) {
+            boostToInvincible
+        } else {
+            maxBoost
         }
     }
 }

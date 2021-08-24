@@ -13,4 +13,11 @@ data class Fs4Player(
     val armor: Fs4Armor = Fs4Armor.ThickClothing,
     val weapon: Fs4Weapon = Fs4Weapon.Rapier,
     val shield: Fs4Shield = Fs4Shield.Standard,
+    val boostBehaviour: BoostBehaviour = BoostBehaviour.Defensive
 )
+
+enum class BoostBehaviour {
+    Defensive,
+    Balanced,
+    Offensive
+}
