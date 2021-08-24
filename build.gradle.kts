@@ -1,9 +1,15 @@
+@file:Suppress("PropertyName")
+
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+val junit_version: String by project
+val strikt_version: String by project
 
 plugins {
     application
-    kotlin("jvm") version "1.5.30-RC"
-    id("com.adarshr.test-logger") version "3.0.0"
+    kotlin("jvm")
+    id("com.adarshr.test-logger")
+    id("com.github.ben-manes.versions")
 }
 
 group = "de.stefanbissell.fscombat"
@@ -14,8 +20,8 @@ repositories {
 }
 
 dependencies {
-    testImplementation("org.junit.jupiter:junit-jupiter:5.8.0-RC1")
-    testImplementation("io.strikt:strikt-core:0.31.0")
+    testImplementation("org.junit.jupiter:junit-jupiter:$junit_version")
+    testImplementation("io.strikt:strikt-core:$strikt_version")
 }
 
 tasks {
