@@ -102,7 +102,7 @@ class BoostDecider(
 ) {
 
     fun decide(): Int {
-        if (defender.player.boostBehaviour == BoostBehaviour.Offensive) {
+        if (defender.player.boostBehaviour == BoostBehaviour.Never) {
             return 0
         }
         val invincibleResistance = attacker.cache + 1

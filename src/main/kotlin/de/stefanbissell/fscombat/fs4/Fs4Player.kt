@@ -16,8 +16,9 @@ data class Fs4Player(
     val boostBehaviour: BoostBehaviour = BoostBehaviour.Defensive
 )
 
+@Suppress("unused")
 enum class BoostBehaviour {
     Defensive,
     Balanced,
-    Offensive
+    Never
 }
