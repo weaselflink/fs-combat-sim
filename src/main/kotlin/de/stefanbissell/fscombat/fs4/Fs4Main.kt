@@ -1,5 +1,6 @@
 package de.stefanbissell.fscombat.fs4
 
+import de.stefanbissell.fscombat.fs4.BoostBehaviour.*
 import de.stefanbissell.fscombat.fs4.Fs4Armor.*
 import de.stefanbissell.fscombat.fs4.Fs4Shield.*
 import de.stefanbissell.fscombat.fs4.Fs4Weapon.*
@@ -14,7 +15,8 @@ fun main() {
             melee = (3..10).random(),
             armor = ThickClothing,
             weapon = Rapier,
-            shield = Standard
+            shield = Standard,
+            boostBehaviour = Balanced
         )
     }
     val playerB = {

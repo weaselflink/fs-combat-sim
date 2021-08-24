@@ -30,27 +30,27 @@ private class AttackResolverInstance(
 
     private fun resolveSuccess(roll: Fs4Roll) {
         attacker.cache += roll.victoryPoints
-        val boostedResistance = if (roll.critical) {
-            0
-        } else {
-            boostedResistance()
-        }
+        val boostedResistance = if (roll.critical) 0 else boostedResistance()
         if (attacker.cache >= boostedResistance) {
-            val extraVp = attacker.cache - boostedResistance
-            val maxPossibleDamage = attacker.weaponDamage + (extraVp / 2)
-            if (defender.activeShield) {
-                val minPossibleDamage = attacker.weaponDamage - (extraVp / 2)
-                val overDamage = max(0, maxPossibleDamage - defender.player.shield.upper)
-                val underShieldDamage = max(0, defender.player.shield.lower - 1)
-                when {
-                    overDamage >= underShieldDamage -> inflictMaxDamage(extraVp, boostedResistance)
-                    minPossibleDamage <= underShieldDamage -> goUnderShield(extraVp, boostedResistance)
-                    overDamage > 0 -> inflictMaxDamage(extraVp, boostedResistance)
-                    else -> inflictRegularDamage()
-                }
-            } else {
-                inflictMaxDamage(extraVp, boostedResistance)
+            inflictDamage(boostedResistance)
+        }
+    }
+
+    private fun inflictDamage(boostedResistance: Int) {
+        val extraVp = attacker.cache - boostedResistance
+        val maxPossibleDamage = attacker.weaponDamage + (extraVp / 2)
+        if (defender.activeShield) {
+            val minPossibleDamage = attacker.weaponDamage - (extraVp / 2)
+            val overDamage = max(0, maxPossibleDamage - defender.player.shield.upper)
+            val underShieldDamage = max(0, defender.player.shield.lower - 1)
+            when {
+                overDamage >= underShieldDamage -> inflictMaxDamage(extraVp, boostedResistance)
+                minPossibleDamage <= underShieldDamage -> goUnderShield(extraVp, boostedResistance)
+                overDamage > 0 -> inflictMaxDamage(extraVp, boostedResistance)
+                else -> inflictRegularDamage()
             }
+        } else {
+            inflictMaxDamage(extraVp, boostedResistance)
         }
     }
 
@@ -102,6 +102,9 @@ class BoostDecider(
 ) {
 
     fun decide(): Int {
+        if (defender.player.boostBehaviour == BoostBehaviour.Offensive) {
+            return 0
+        }
         val invincibleResistance = attacker.cache + 1
         val boostToInvincible = invincibleResistance - defender.bodyResistance
         val maxBoost = if (defender.player.armor.hindering) {
@@ -112,7 +115,11 @@ class BoostDecider(
         return if (maxBoost >= boostToInvincible) {
             boostToInvincible
         } else {
-            maxBoost
+            if (defender.player.boostBehaviour == BoostBehaviour.Defensive) {
+                maxBoost
+            } else {
+                0
+            }
         }
     }
 }
