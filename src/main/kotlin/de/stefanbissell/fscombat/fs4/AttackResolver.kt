@@ -115,7 +115,7 @@ class BoostDecider(
         return if (maxBoost >= boostToInvincible) {
             boostToInvincible
         } else {
-            if (defender.player.boostBehaviour == BoostBehaviour.Defensive) {
+            if (defender.player.boostBehaviour == BoostBehaviour.Maximum) {
                 maxBoost
             } else {
                 0
