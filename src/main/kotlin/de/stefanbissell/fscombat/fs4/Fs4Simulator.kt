@@ -22,20 +22,21 @@ class Fs4Simulator(
     private fun singleRun(index: Int): RunResult {
         return Fs4Combat(playerAExpr(), playerBExpr())
             .run(index)
-            .let {
-                when {
-                    it.playerA.isAlive && !it.playerB.isAlive -> {
-                        RunResult(1, 0, 0, it.rounds)
-                    }
-                    !it.playerA.isAlive && it.playerB.isAlive -> {
-                        RunResult(0, 1, 0, it.rounds)
-                    }
-                    else -> {
-                        RunResult(0, 0, 1, it.rounds)
-                    }
-                }
-            }
+            .toRunResult()
     }
+
+    private fun Fs4CombatResult.toRunResult() =
+        when {
+            playerA.isAlive && !playerB.isAlive -> {
+                RunResult(1, 0, 0, rounds)
+            }
+            !playerA.isAlive && playerB.isAlive -> {
+                RunResult(0, 1, 0, rounds)
+            }
+            else -> {
+                RunResult(0, 0, 1, rounds)
+            }
+        }
 }
 
 private data class RunResult(
