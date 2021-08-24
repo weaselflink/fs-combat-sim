@@ -16,7 +16,7 @@ fun main() {
             armor = ThickClothing,
             weapon = Rapier,
             shield = Standard,
-            boostBehaviour = Maximum
+            boostBehaviour = OnlyWhenHitAvoided
         )
     }
     val playerB = {
