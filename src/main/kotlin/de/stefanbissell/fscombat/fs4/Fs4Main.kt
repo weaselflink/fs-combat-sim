@@ -24,7 +24,7 @@ fun main() {
             strength = (3..10).random(),
             melee = (3..10).random(),
             armor = ScaleMail,
-            weapon = Dagger,
+            weapon = UkariPunchBlade,
             shield = NoShield
         )
     }
