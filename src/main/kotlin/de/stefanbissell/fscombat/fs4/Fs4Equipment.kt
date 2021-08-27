@@ -5,8 +5,8 @@ import de.stefanbissell.fscombat.fs4.Fs4Shield.*
 
 @Suppress("unused")
 enum class Fs4Armor(
-    val resistance: Int,
-    val proofing: List<Fs4DamageType> = emptyList(),
+    private val resistance: Int,
+    private val proofing: List<Fs4DamageType> = emptyList(),
     val allowedShield: Fs4Shield = Standard,
     val hindering: Boolean = false,
 ) {
@@ -35,7 +35,14 @@ enum class Fs4Armor(
     MailPlasteel(7, listOf(Hard, Shock, Slam), Assault, true),
     FullPlate(8, listOf(Hard, Slam), Battle, true),
     FullPlatePlastic(8, listOf(Shock, Slam), Battle, true),
-    FullPlatePlasteel(8, listOf(Hard, Shock, Slam), Battle, true),
+    FullPlatePlasteel(8, listOf(Hard, Shock, Slam), Battle, true);
+
+    fun resistanceAgainst(weapon: Fs4Weapon) =
+        if (weapon.types.any { it !in proofing }) {
+            resistance / 2
+        } else {
+            resistance
+        }
 }
 
 @Suppress("unused")
@@ -59,6 +66,7 @@ enum class Fs4Weapon(
     Club(4),
     Mace(5, listOf(Hard, Slam)),
     Dagger(4),
+    UkariPunchBlade(4, listOf(Hard)),
     MainGauche(4, resistance = 1),
     GreatWeapon(8),
     Knife(3),

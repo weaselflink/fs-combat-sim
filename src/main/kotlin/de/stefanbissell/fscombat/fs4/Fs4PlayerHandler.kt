@@ -11,8 +11,10 @@ class Fs4PlayerHandler(
     var cache: Int = 0
 ) {
 
-    val bodyResistance = player.armor.resistance + player.weapon.resistance
     val weaponDamage = player.weapon.damage
+
+    fun bodyResistance(weapon: Fs4Weapon) =
+        player.armor.resistanceAgainst(weapon) + player.weapon.resistance
 
     fun attack(otherPlayer: Fs4PlayerHandler) {
         cache = min(cache, player.bank)
