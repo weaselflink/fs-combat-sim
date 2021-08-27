@@ -71,7 +71,9 @@ enum class Fs4Weapon(
     UkariPunchBlade(4, listOf(Hard)),
     MainGauche(4, resistance = 1),
     GreatWeapon(8),
+    AdeptClaymore(8, listOf(Hard, Slam), resistance = 1),
     Knife(3),
+    Morningstar(5, listOf(Hard, Slam), goal = -1),
     Rapier(5),
     Sword(6),
 }
