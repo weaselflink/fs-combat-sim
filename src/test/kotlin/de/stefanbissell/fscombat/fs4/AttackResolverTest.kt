@@ -1,6 +1,7 @@
 package de.stefanbissell.fscombat.fs4
 
 import de.stefanbissell.fscombat.fs4.Fs4Armor.*
+import de.stefanbissell.fscombat.fs4.Fs4Shield.*
 import de.stefanbissell.fscombat.fs4.Fs4Weapon.*
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
@@ -17,9 +18,32 @@ class AttackResolverTest {
     fun `resolves failure`() {
         AttackResolver.resolve(attacker, defender, 7)
 
-        expectThat(defender.vitality).isEqualTo(defenderTemplate.vitality)
-        expectThat(defender.shieldHits).isEqualTo(defenderTemplate.shield.hits)
-        expectThat(attacker.cache).isEqualTo(0)
+        expectMiss()
+    }
+
+    @Test
+    fun `takes weapon goal modifier into account`() {
+        attackerTemplate = attackerTemplate.copy(
+            strength = 7,
+            melee = 7,
+            weapon = Quarterstaff
+        )
+        AttackResolver.resolve(attacker, defender, 14)
+
+        expectMiss()
+    }
+
+    @Test
+    fun `takes weapon resistance modifier into account`() {
+        defenderTemplate = defenderTemplate.copy(
+            armor = PolymerKnit,
+            weapon = MainGauche,
+            shield = NoShield
+        )
+        AttackResolver.resolve(attacker, defender, 4)
+
+        expectThat(defender.vitality).isEqualTo(defenderTemplate.vitality - 5)
+        expectThat(attacker.cache).isEqualTo(1)
     }
 
     @Test
@@ -129,5 +153,11 @@ class AttackResolverTest {
         expectThat(defender.vitality).isEqualTo(defenderTemplate.vitality - 5)
         expectThat(defender.cache).isEqualTo(0)
         expectThat(attacker.cache).isEqualTo(1)
+    }
+
+    private fun expectMiss() {
+        expectThat(defender.vitality).isEqualTo(defenderTemplate.vitality)
+        expectThat(defender.shieldHits).isEqualTo(defenderTemplate.shield.hits)
+        expectThat(attacker.cache).isEqualTo(0)
     }
 }

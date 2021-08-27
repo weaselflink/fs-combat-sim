@@ -21,7 +21,7 @@ private class AttackResolverInstance(
 ) {
 
     fun resolve() {
-        val goal = attacker.player.strength + attacker.player.melee
+        val goal = attacker.player.strength + attacker.player.melee + attacker.player.weapon.goal
         val roll = Fs4Roll(goal, diceRoll)
         if (roll.success) {
             resolveSuccess(roll)

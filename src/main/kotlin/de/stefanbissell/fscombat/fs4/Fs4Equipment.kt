@@ -59,11 +59,13 @@ enum class Fs4DamageType {
 enum class Fs4Weapon(
     val damage: Int,
     val types: List<Fs4DamageType> = emptyList(),
+    val goal: Int = 0,
     val resistance: Int = 0
 ) {
     Hatchet(6),
     BattleAxe(7),
     Club(4),
+    Quarterstaff(5, listOf(Slam), goal = -1),
     Mace(5, listOf(Hard, Slam)),
     Dagger(4),
     UkariPunchBlade(4, listOf(Hard)),
