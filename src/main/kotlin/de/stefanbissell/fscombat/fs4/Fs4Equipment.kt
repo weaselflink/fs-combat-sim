@@ -17,13 +17,25 @@ enum class Fs4Armor(
     SynthSilk(3, listOf(Shock)),
     StiffSynth(4, listOf(Shock, Slam), Assault),
     SmartSynth(4, listOf(Hard, Shock, Slam), Assault),
+
     BattlePadding(1, listOf(Shock, Slam)),
     StuddedLeatherJerkin(3, listOf(Slam), Assault),
+    StuddedLeatherJerkinPlastic(3, listOf(Shock, Slam), Assault),
+    StuddedLeatherJerkinPlasteel(3, listOf(Hard, Shock, Slam), Assault),
     HalfPlate(5, listOf(Hard, Slam)),
+    HalfPlatePlastic(5, listOf(Shock, Slam)),
+    HalfPlatePlasteel(5, listOf(Hard, Shock, Slam)),
+
     CeramsteelExoframe(10, listOf(Hard, Laser, Shock, Slam), Battle, true),
     ScaleMail(6, listOf(Hard, Slam), Battle, true),
-    Mail(7, listOf(Hard, Slam), Battle, true),
+    ScaleMailPlastic(6, listOf(Shock, Slam), Assault, true),
+    ScaleMailPlasteel(6, listOf(Hard, Shock, Slam), Assault, true),
+    Mail(7, listOf(Hard, Slam), Assault, true),
+    MailPlastic(7, listOf(Shock, Slam), Assault, true),
+    MailPlasteel(7, listOf(Hard, Shock, Slam), Assault, true),
     FullPlate(8, listOf(Hard, Slam), Battle, true),
+    FullPlatePlastic(8, listOf(Shock, Slam), Battle, true),
+    FullPlatePlasteel(8, listOf(Hard, Shock, Slam), Battle, true),
 }
 
 @Suppress("unused")
