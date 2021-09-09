@@ -137,6 +137,9 @@ class AttackResolverTest {
 
     @Test
     fun `defender boosts resistance with full VP`() {
+        defenderTemplate = defenderTemplate.copy(
+            boostBehaviour = BoostBehaviour.MaximumBoost
+        )
         defender.cache = 2
         defender.shieldHits = 0
 
@@ -150,7 +153,8 @@ class AttackResolverTest {
     @Test
     fun `boost cost double with hindering armor`() {
         defenderTemplate = defenderTemplate.copy(
-            armor = ScaleMail
+            armor = ScaleMail,
+            boostBehaviour = BoostBehaviour.MaximumBoost
         )
         defender.cache = 2
         defender.shieldHits = 0

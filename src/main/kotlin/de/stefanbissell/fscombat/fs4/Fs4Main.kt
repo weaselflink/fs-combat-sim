@@ -27,7 +27,9 @@ fun main() {
             melee = (3..10).random(),
             armor = ScaleMail,
             weapon = UkariPunchBlade,
-            shield = NoShield
+            shield = NoShield,
+            boostBehaviour = NoBoost,
+            precisionBehaviour = OnlyUseLostCache
         )
     }
 
