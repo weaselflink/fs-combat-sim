@@ -17,8 +17,9 @@ class Fs4PlayerHandler(
         player.armor.resistanceAgainst(weapon) + player.weapon.resistance
 
     fun attack(otherPlayer: Fs4PlayerHandler) {
-        cache = min(cache, player.bank)
-        AttackResolver.resolve(this, otherPlayer, rollD20())
+        val precision = determinePrecision()
+        forfeitCacheAboveBank()
+        AttackResolver.resolve(this, otherPlayer, rollD20(), precision)
     }
 
     fun takeDamage(damage: Int) {
@@ -37,4 +38,18 @@ class Fs4PlayerHandler(
 
     val activeShield
         get() = shieldHits > 0
+
+    private fun determinePrecision(): Int {
+        val precision = when (player.precisionBehaviour) {
+            PrecisionBehaviour.MaximumPrecision -> cache
+            PrecisionBehaviour.OnlyUseLostCache -> max(0, cache - player.bank)
+            PrecisionBehaviour.NoPrecision -> 0
+        }
+        cache -= precision
+        return precision
+    }
+
+    private fun forfeitCacheAboveBank() {
+        cache = min(cache, player.bank)
+    }
 }

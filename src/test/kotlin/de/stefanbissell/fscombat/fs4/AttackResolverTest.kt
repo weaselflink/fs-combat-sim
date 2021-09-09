@@ -34,6 +34,17 @@ class AttackResolverTest {
     }
 
     @Test
+    fun `takes precision into account`() {
+        defenderTemplate = defenderTemplate.copy(
+            shield = NoShield
+        )
+        AttackResolver.resolve(attacker, defender, 8, 3)
+
+        expectThat(defender.vitality).isEqualTo(defenderTemplate.vitality - 8)
+        expectThat(attacker.cache).isEqualTo(1)
+    }
+
+    @Test
     fun `takes weapon resistance modifier into account`() {
         defenderTemplate = defenderTemplate.copy(
             armor = PolymerKnit,

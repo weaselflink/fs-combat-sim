@@ -8,20 +8,22 @@ object AttackResolver {
     fun resolve(
         attacker: Fs4PlayerHandler,
         defender: Fs4PlayerHandler,
-        diceRoll: Int
+        diceRoll: Int,
+        precision: Int = 0
     ) {
-        AttackResolverInstance(attacker, defender, diceRoll).resolve()
+        AttackResolverInstance(attacker, defender, diceRoll, precision).resolve()
     }
 }
 
 private class AttackResolverInstance(
     private val attacker: Fs4PlayerHandler,
     private val defender: Fs4PlayerHandler,
-    private val diceRoll: Int
+    private val diceRoll: Int,
+    private val precision: Int = 0
 ) {
 
     fun resolve() {
-        val goal = attacker.player.strength + attacker.player.melee + attacker.player.weapon.goal
+        val goal = attacker.player.strength + attacker.player.melee + attacker.player.weapon.goal + precision
         val roll = Fs4Roll(goal, diceRoll)
         if (roll.success) {
             resolveSuccess(roll)
@@ -102,7 +104,7 @@ class BoostDecider(
 ) {
 
     fun decide(): Int {
-        if (defender.player.boostBehaviour == BoostBehaviour.Never) {
+        if (defender.player.boostBehaviour == BoostBehaviour.NoBoost) {
             return 0
         }
         val invincibleResistance = attacker.cache + 1
@@ -115,7 +117,7 @@ class BoostDecider(
         return if (maxBoost >= boostToInvincible) {
             boostToInvincible
         } else {
-            if (defender.player.boostBehaviour == BoostBehaviour.Maximum) {
+            if (defender.player.boostBehaviour == BoostBehaviour.MaximumBoost) {
                 maxBoost
             } else {
                 0

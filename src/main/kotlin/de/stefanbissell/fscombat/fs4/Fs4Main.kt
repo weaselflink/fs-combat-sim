@@ -4,6 +4,7 @@ import de.stefanbissell.fscombat.fs4.BoostBehaviour.*
 import de.stefanbissell.fscombat.fs4.Fs4Armor.*
 import de.stefanbissell.fscombat.fs4.Fs4Shield.*
 import de.stefanbissell.fscombat.fs4.Fs4Weapon.*
+import de.stefanbissell.fscombat.fs4.PrecisionBehaviour.*
 import kotlin.time.ExperimentalTime
 import kotlin.time.measureTime
 
@@ -16,7 +17,8 @@ fun main() {
             armor = ThickClothing,
             weapon = Rapier,
             shield = Standard,
-            boostBehaviour = OnlyWhenHitAvoided
+            boostBehaviour = OnlyWhenHitAvoided,
+            precisionBehaviour = OnlyUseLostCache
         )
     }
     val playerB = {
