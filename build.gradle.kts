@@ -25,7 +25,7 @@ dependencies {
 }
 
 tasks {
-    withType<KotlinCompile>() {
+    withType<KotlinCompile> {
         kotlinOptions.jvmTarget = "11"
     }
 
