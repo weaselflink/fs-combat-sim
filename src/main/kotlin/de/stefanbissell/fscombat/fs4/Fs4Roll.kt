@@ -10,11 +10,10 @@ class Fs4Roll(
 
     private val adjustedGoal = min(goal, 19)
     val success = roll <= adjustedGoal || roll == 1
-    val critical = min(goal, 19) == roll
+    val critical = adjustedGoal == roll
     val victoryPoints = if (success) {
         roll + max(0, goal - 20)
     } else {
         0
     }
-
 }
