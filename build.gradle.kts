@@ -1,16 +1,11 @@
 @file:Suppress("PropertyName")
 
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
-val junit_version: String by project
-val strikt_version: String by project
-val java_version: String by project
-
 plugins {
     application
-    kotlin("jvm")
-    id("com.adarshr.test-logger")
-    id("com.github.ben-manes.versions")
+    alias(libs.plugins.kotlin)
+    alias(libs.plugins.test.logger)
+    alias(libs.plugins.versions)
+    alias(libs.plugins.versions.filter)
 }
 
 group = "de.stefanbissell.fscombat"
@@ -21,23 +16,15 @@ repositories {
 }
 
 dependencies {
-    testImplementation("org.junit.jupiter:junit-jupiter:$junit_version")
-    testImplementation("io.strikt:strikt-core:$strikt_version")
+    testImplementation("org.junit.jupiter:junit-jupiter:${libs.versions.junit.get()}")
+    testImplementation("io.strikt:strikt-core:${libs.versions.strikt.get()}")
 }
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(java_version))
-    }
+kotlin {
+    jvmToolchain(21)
 }
 
 tasks {
-    withType<KotlinCompile> {
-        kotlinOptions {
-            jvmTarget = java_version
-        }
-    }
-
     test {
         useJUnitPlatform()
         testLogging {

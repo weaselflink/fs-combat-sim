@@ -1,0 +1,17 @@
+[versions]
+kotlin = "2.0.0"
+junit = "5.10.3"
+strikt = "0.35.1"
+test-logger = "4.0.0"
+versions = "0.51.0"
+versions-filter = "0.1.16"
+
+[libraries]
+junit = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
+strikt = { module = "io.strikt:strikt-core", version.ref = "strikt" }
+
+[plugins]
+kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+test-logger = { id = "com.adarshr.test-logger", version.ref = "test-logger" }
+versions = { id = "com.github.ben-manes.versions", version.ref = "versions" }
+versions-filter = { id = "se.ascp.gradle.gradle-versions-filter", version.ref = "versions-filter" }
